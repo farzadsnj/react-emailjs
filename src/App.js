@@ -1,45 +1,52 @@
 import "./App.css";
+import emailjs from 'emailjs-com';
+import {useState} from 'react'
 
 function App() {
+
+  const [toName, settoName] = useState('')
+  const [formEmail, setformEmail] = useState('')
+  const [message, setmessage] = useState('')
+
+  const onSubmit = () => {
+    const templateParams = {
+      to_name: toName,
+      from_name: formEmail,
+      message: message
+  };
+
+    emailjs.send('service_1yajczk','template_ge24plk', templateParams, 'kYaUFSIdwBA3MStoB')
+	.then((response) => {
+	   console.log('SUCCESS!', response.status, response.text);
+	}, (err) => {
+	   console.log('FAILED...', err);
+	});
+  }
+
   return (
     <div className="App">
-      <div class="container">
-        <form id="contact" action="" method="post">
+      <div className="container">
+        <form id="contact">
           <h3>Colorlib Contact Form</h3>
           <h4>Contact us for custom quote</h4>
 
           <input
             placeholder="Your name"
             type="text"
-            tabindex="1"
             required
-            autofocus
+            onChange={(e)=> settoName(e.target.value)}
           />
           <input
             placeholder="Your Email Address"
             type="email"
-            tabindex="2"
             required
-          />
-
-          <input
-            placeholder="Your Phone Number (optional)"
-            type="tel"
-            tabindex="3"
-            required
-          />
-
-          <input
-            placeholder="Your Web Site (optional)"
-            type="url"
-            tabindex="4"
-            required
+            onChange={e=> setformEmail(e.target.value)}
           />
 
           <textarea
             placeholder="Type your message here...."
-            tabindex="5"
             required
+            onChange={e=> setmessage(e.target.value)}
           ></textarea>
 
           <button
@@ -47,10 +54,11 @@ function App() {
             type="submit"
             id="contact-submit"
             data-submit="...Sending"
+            onClick={onSubmit}
           >
             Submit
           </button>
-          <p class="copyright">
+          <p className="copyright">
             Designed by{"Farzad Sanjarani"}
             {/* <a href="https://colorlib.com" target="_blank" title="Colorlib"> */}
               Colorlib
