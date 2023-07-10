@@ -5,5 +5,6 @@ const text = () => {
     <div>text</div>
   )
 }
+// comment
 
 export default text
